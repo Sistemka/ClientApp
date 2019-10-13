@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    {% for picture in pictures %}
+        <img src="data:image/png;base64,{{picture}}">
+    {% endfor %}
+</body>
+</html>
