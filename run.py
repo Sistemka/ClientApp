@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, url_for, redirect, flash
 import os
 import io, base64
-from pathlib import Path
 
 app = Flask(__name__)
 
@@ -11,8 +10,7 @@ def getpictures(files):
     pictures = []
     input_pic = base64.b64encode(output.getvalue()).decode()
     pictures.append(input_pic)
-    BASE_DIR = str(Path(__file__).resolve().parent)
-    DIR = os.path.join(BASE_DIR, 'templates/media')
+    DIR = os.path.join(os.getcwd(), 'templates/media')
     for fl in os.listdir(DIR):
         output = io.BytesIO(open(os.path.join(DIR, fl), "rb").read())
         pictures.append(base64.b64encode(output.getvalue()).decode())
