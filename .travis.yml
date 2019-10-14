@@ -1,0 +1,16 @@
+dist: xenial
+sudo: false
+language: python
+python:
+  - "3.7"
+
+install:
+  - pipenv sync --dev
+
+stages:
+  - test
+  - examples
+
+script:
+  - pipenv run flake8 .
+  - pipenv run python -m unittest discover tests
