@@ -15,6 +15,7 @@ flake8-unused-arguments = "*"
 flake8-builtins = "*"
 
 [packages]
+flask = "*"
 
 [requires]
 python_version = "3.7"

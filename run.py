@@ -3,19 +3,17 @@ import datetime
 import io
 import base64
 
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, Response
 
 from settings.paths import DIR, UPLOAD_DIR
 
 app = Flask(__name__)
 
 
-def getpictures(file_path):
-    output = io.BytesIO(open(file_path, "rb").read())
+def getpictures(pictures_paths):
     pictures = []
-    pictures.append(base64.b64encode(output.getvalue()).decode())
-    for fl in os.listdir(DIR):
-        output = io.BytesIO(open(os.path.join(DIR, fl), "rb").read())
+    for fl in pictures_paths:
+        output = io.BytesIO(open(fl, "rb").read())
         pictures.append(base64.b64encode(output.getvalue()).decode())
     return pictures
 
@@ -28,10 +26,12 @@ def hello_world():
         file = request.files["file"]
         filename = str(hash(file.filename + str(datetime.datetime.now()))
                        ) + "." + file.filename.split(".")[-1]
-        file.save(os.path.join(UPLOAD_DIR, filename))
-        pictures = getpictures(os.path.join(UPLOAD_DIR, filename))
+        file.save(os.path.join(UPLOAD_DIR, filename))  # this thing saves file, so you can use it
+        file_paths = os.listdir(UPLOAD_DIR) # this has to be changed to neural method
+        file_paths = [os.path.join(UPLOAD_DIR, fl) for fl in file_paths]
+        pictures = getpictures(file_paths)
         os.remove(os.path.join(UPLOAD_DIR, filename))
-        return render_template("result.html", pictures=pictures)
+        return render_template("main.html", pictures=pictures)
     return render_template('main.html')
 
 
