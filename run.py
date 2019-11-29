@@ -3,10 +3,10 @@ import datetime
 import io
 import base64
 
-from flask import Flask, render_template, request, redirect, Response
+from flask import Flask, render_template, request, redirect
 from sistemka.services import SearchEngine
 
-from settings.paths import DIR, UPLOAD_DIR
+from settings.paths import UPLOAD_DIR
 
 app = Flask(__name__)
 
@@ -29,7 +29,8 @@ def hello_world():
                        ) + "." + file.filename.split(".")[-1]
         upload_file_path = os.path.join(UPLOAD_DIR, filename)
         file.save(upload_file_path)  # this thing saves file, so you can use it
-        file_paths = SearchEngine().predict(image_path=upload_file_path, image_name='upload_file') # this has to be changed to neural method
+        file_paths = SearchEngine().predict(image_path=upload_file_path,
+                                            image_name='upload_file')  # this has to be changed to neural method
         file_paths = [fl.get('url') for fl in file_paths]
         pictures = getpictures(file_paths)
         os.remove(os.path.join(UPLOAD_DIR, filename))
