@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    <a href = '/'>Back</a>
+    <div>
+    {% for picture in pictures %}
+        <img src="data:image/png;base64,{{picture}}">
+    {% endfor %}
+    </div>
+</body>
+</html>
