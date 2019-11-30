@@ -16,8 +16,8 @@ flake8-builtins = "*"
 
 [packages]
 flask = "*"
-sistemka = {editable = true,git = "https://github.com/Sistemka/Sistemka.git"}
 gunicorn = "*"
+sistemka = {editable = true,git = "https://github.com/Sistemka/Sistemka.git"}
 
 [requires]
 python_version = "3.7"
