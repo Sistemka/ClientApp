@@ -19,6 +19,8 @@ def getpictures(pictures_paths):
     return pictures
 
 
+SE = SearchEngine()
+
 @app.route('/', methods=["GET", 'POST'])
 def hello_world():
     if request.method == "POST":
@@ -29,7 +31,7 @@ def hello_world():
                        ) + "." + file.filename.split(".")[-1]
         upload_file_path = os.path.join(UPLOAD_DIR, filename)
         file.save(upload_file_path)  # this thing saves file, so you can use it
-        file_paths = SearchEngine().predict(image_path=upload_file_path,
+        file_paths = SE.predict(image_path=upload_file_path,
                                             image_name='upload_file')  # this has to be changed to neural method
         file_paths = [fl.get('url') for fl in file_paths]
         pictures = getpictures(file_paths)
