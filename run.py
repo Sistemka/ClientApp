@@ -3,7 +3,7 @@ import datetime
 import io
 import base64
 
-from flask import Flask, render_template, request, redirect, abort, Response
+from flask import Flask, render_template, request, redirect, abort
 from sistemka.services import SearchEngine, ImageManager
 
 from settings.paths import UPLOAD_DIR, FILES_DIR
@@ -22,6 +22,7 @@ def getpictures(pictures_paths):
 
 SE = SearchEngine()
 image_manager = ImageManager()
+
 
 @app.route('/', methods=["GET", 'POST'])
 def hello_world():
@@ -45,6 +46,7 @@ def hello_world():
         os.remove(os.path.join(UPLOAD_DIR, filename))
         return render_template("main.html", pictures=pictures)
     return render_template('main.html')
+
 
 @app.route('/set', methods=["POST"])
 def set_pic():

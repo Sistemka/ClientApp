@@ -20,4 +20,4 @@ gunicorn = "*"
 sistemka = {editable = true,git = "https://github.com/Sistemka/Sistemka.git"}
 
 [requires]
-python_version = "3.7"
+python_version = "3.6"
