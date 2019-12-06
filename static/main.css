@@ -68,9 +68,24 @@ margin-top: 40px;
 .box
 {
 font-size: 1.25rem; /* 20 */
-background-color: #c8dadf;
 position: relative;
 padding: 100px 20px;
+background-repeat: no-repeat;
+background-position: center;
+background-size: cover;
+}
+
+.back-picture{
+  opacity: 0.5;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 .box.has-advanced-upload
 {
