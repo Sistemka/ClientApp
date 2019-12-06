@@ -10,7 +10,7 @@
 
 <body>
     <div class="container">
-        <form class="box has-advanced-upload" method="post" enctype="multipart/form-data" action="">
+        <form class="box has-advanced-upload" method="post" enctype="multipart/form-data" style="background-color: #c8dadf;">
             <div class="box__input">
                 <svg class="box__icon" xmlns="http://www.w3.org/2000/svg" width="50" height="43" viewBox="0 0 50 43">
                     <path
@@ -57,6 +57,42 @@
                         input.files = files
                         label.textContent = files.length > 1 ? (input.getAttribute('data-multiple-caption') || '').replace('{count}', files.length) : files[0].name;
                     },
+                    setPicture = function (files) {
+                        if( form.classList.contains( 'is-uploading' ) ) return false;
+                        form.classList.add( 'is-uploading' );
+                        form.classList.remove( 'is-error' );
+
+					    var ajaxData = new FormData( form );
+                        ajaxData.append( input.getAttribute( 'name' ), file );
+                        var ajax = new XMLHttpRequest();
+                        ajax.open("POST", "/set", true );
+                        ajax.onload = function()
+                        {
+                            form.classList.remove( 'is-uploading' );
+                            if( ajax.status >= 200 && ajax.status < 400 )
+                            {
+                                var data =  ajax.responseText;
+                                var prev_back = document.querySelector("#background")
+                                if (prev_back != null){
+                                    prev_back.remove();
+                                }
+                                let background = document.createElement('div');
+                                background.setAttribute("id", 'background');
+                                background.setAttribute('style', "background-image : url(data:image/png;base64,"+ data +")");
+                                background.classList.add("back-picture");
+                                form.appendChild(background)
+                                form.setAttribute('style', "background-color :none;");
+                            }
+                        };
+
+                        ajax.onerror = function()
+                        {
+                            form.classList.remove( 'is-uploading' );
+                            alert( 'Error. Please, try again!' );
+                        };
+
+					ajax.send( ajaxData );
+                    },
                     triggerFormSubmit = function () {
                         var event = document.createEvent('HTMLEvents');
                         event.initEvent('submit', true, false);
@@ -72,6 +108,7 @@
 
                 // automatically submit the form on file select
                 input.addEventListener('change', function (e) {
+                    setPicture(e.target.files);
                     showFiles(e.target.files);
                 });
 
@@ -99,6 +136,7 @@
                     form.addEventListener('drop', function (e) {
                         droppedFiles = e.dataTransfer.files; // the files that were dropped
                         showFiles(droppedFiles);
+                        setPicture(droppedFiles);
                     });
                 }
 
